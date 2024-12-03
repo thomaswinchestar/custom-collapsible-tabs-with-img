@@ -1,0 +1,133 @@
+<section class="collapsible-tabs-section">
+    <div class="container">
+        <div class="row">
+            <!-- Left Column: Collapsible Tabs -->
+            <div class="col-left">
+                <div class="collapsible-tabs">
+                    {% for tab in section.blocks %}
+                    <div class="collapsible-tab">
+                        <div class="tab-header">
+                            <span class="tab-title">{{ tab.settings.title }}</span>
+                            <span class="tab-icon">+</span>
+                        </div>
+                        <div class="tab-content">
+                            <p>{{ tab.settings.content }}</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Right Column: Image -->
+            <div class="col-right">
+                <img src="{{ section.settings.image | img_url: '650x400' }}" alt="Right Column Image" width="650" height="400">
+            </div>
+        </div>
+    </div>
+</section>
+
+{% schema %} { "name": "Collapsible Tabs Image", "settings": [ { "type": "image_picker", "id": "image", "label": "Right Column Image" } ], "blocks": [ { "type": "tab", "name": "Tab", "settings": [ { "type": "text", "id": "title", "label": "Tab Title"
+}, { "type": "textarea", "id": "content", "label": "Tab Content" } ] } ], "presets": [ { "name": "Collapsible Tabs Image", "category": "Custom" } ] } {% endschema %}
+
+<style>
+    /* General styling for the section */
+    
+    .collapsible-tabs-section .container .row {
+        display: flex;
+        flex-direction: row;
+        /* Force the container into a row layout */
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 20px;
+        margin: 0 auto;
+    }
+    /* Styling for the left column (tabs) */
+    
+    .col-left {
+        flex: 1;
+        /* Left column takes up half of the row */
+        max-width: 50%;
+    }
+    
+    .collapsible-tabs {
+        width: 100%;
+    }
+    
+    .collapsible-tab {
+        margin-bottom: 10px;
+        border-bottom: 1px solid #E3E3E3;
+    }
+    
+    .tab-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+        font-weight: bold;
+        padding: 10px 15px;
+    }
+    
+    .tab-content {
+        display: none;
+        padding: 10px 15px;
+    }
+    
+    .tab-icon {
+        background: transparent;
+    }
+    /* Styling for the right column (image) */
+    
+    .col-right {
+        flex: 1;
+        /* Right column takes up half of the row */
+        max-width: 50%;
+        text-align: center;
+    }
+    
+    .col-right img {
+        max-width: 100%;
+        /* Ensure the image scales appropriately */
+        height: auto;
+    }
+    /* Responsive styling for smaller screens */
+    
+    @media (max-width: 768px) {
+        .collapsible-tabs-section .container .row {
+            flex-direction: column;
+            /* Stack columns vertically on small screens */
+        }
+        .col-left,
+        .col-right {
+            max-width: 100%;
+            /* Make columns full-width */
+        }
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const tabs = document.querySelectorAll('.collapsible-tab');
+
+        tabs.forEach(tab => {
+            const header = tab.querySelector('.tab-header');
+            const content = tab.querySelector('.tab-content');
+            const icon = tab.querySelector('.tab-icon');
+
+            header.addEventListener('click', function() {
+                const isOpen = content.style.display === 'block';
+
+                // Close all tabs first
+                tabs.forEach(t => {
+                    t.querySelector('.tab-content').style.display = 'none';
+                    t.querySelector('.tab-icon').textContent = '+';
+                });
+
+                // Open the clicked tab if it was not already open
+                if (!isOpen) {
+                    content.style.display = 'block';
+                    icon.textContent = '-';
+                }
+            });
+        });
+    });
+</script>
