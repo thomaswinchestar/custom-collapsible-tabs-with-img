@@ -1,1 +1,1 @@
-# custom-collapsible-tabs-with-img
+# custom-collapsible-tabs-with-img for shopify sections
